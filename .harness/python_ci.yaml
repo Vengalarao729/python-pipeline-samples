@@ -1,0 +1,80 @@
+pipeline:
+  name: python_ci
+  identifier: python_ci
+  projectIdentifier: ORCA_onedev
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: samplepipelineconnector
+        build: <+input>
+  stages:
+    - stage:
+        name: build test run
+        identifier: cloning_repo
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          caching:
+            enabled: false
+            paths: []
+          buildIntelligence:
+            enabled: false
+          execution:
+            steps:
+              - step:
+                  type: GitClone
+                  name: cloning repo
+                  identifier: cloning_repo
+                  spec:
+                    connectorRef: samplepipelineconnector
+                    build:
+                      type: branch
+                      spec:
+                        branch: main
+              - step:
+                  type: Run
+                  name: compile the code
+                  identifier: compile_the_code
+                  spec:
+                    connectorRef: dockerconnector
+                    image: alpine
+                    shell: Sh
+                    command: python3 -m compileall ./
+              - step:
+                  type: Run
+                  name: docker file creation
+                  identifier: docker_file_creation
+                  spec:
+                    connectorRef: dockerconnector
+                    image: alpine
+                    shell: Sh
+                    command: |-
+                      touch <+stage.variables.dockerfilename>
+                      cat > <+stage.variables.dockerfilename> <<- EOM
+                      FROM python:3.10.6-alpine
+                      WORKDIR /python-pipeline-samples
+                      ADD . /python-pipeline-samples
+                      RUN pip install -r requirements.txt
+                      CMD ["python" , "app.py"]
+                      EOM
+                      cat <+stage.variables.dockerfilename>
+                    imagePullPolicy: IfNotPresent
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: "build and push to the docker registry "
+                  identifier: build_and_push_to_the_docker_registry
+                  spec:
+                    connectorRef: dockerconnector
+                    repo: vengalarao729/
+                    tags:
+                      - <+pipeline.executionId>
+                    dockerfile: <+stage.variables.dockerfilename>
