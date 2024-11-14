@@ -31,16 +31,6 @@ pipeline:
           execution:
             steps:
               - step:
-                  type: GitClone
-                  name: cloning repo
-                  identifier: cloning_repo
-                  spec:
-                    connectorRef: samplepipelineconnector
-                    build:
-                      type: branch
-                      spec:
-                        branch: main
-              - step:
                   type: Run
                   name: compile the code
                   identifier: compile_the_code
