@@ -46,7 +46,7 @@ pipeline:
                   identifier: compile_the_code
                   spec:
                     connectorRef: dockerconnector
-                    image: alpine
+                    image: python:3.10
                     shell: Sh
                     command: python3 -m compileall ./
               - step:
