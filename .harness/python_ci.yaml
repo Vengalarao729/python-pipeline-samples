@@ -69,3 +69,9 @@ pipeline:
               spec:
                 poolName: ubuntu-gcp-pool
                 os: Linux
+        variables:
+          - name: dockerfilename
+            type: String
+            description: ""
+            required: false
+            value: dockerfile
