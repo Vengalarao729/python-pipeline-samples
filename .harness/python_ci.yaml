@@ -17,12 +17,6 @@ pipeline:
         type: CI
         spec:
           cloneCodebase: true
-          platform:
-            os: Linux
-            arch: Amd64
-          runtime:
-            type: Cloud
-            spec: {}
           caching:
             enabled: false
             paths: []
@@ -68,3 +62,10 @@ pipeline:
                     tags:
                       - <+pipeline.executionId>
                     dockerfile: <+stage.variables.dockerfilename>
+          infrastructure:
+            type: VM
+            spec:
+              type: Pool
+              spec:
+                poolName: ubuntu-gcp-pool
+                os: Linux
