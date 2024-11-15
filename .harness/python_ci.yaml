@@ -69,8 +69,6 @@ pipeline:
               spec:
                 poolName: ubuntu-gcp-pool
                 os: Linux
-              delegateSelectors:
-                - docker-delegate
         variables:
           - name: dockerfilename
             type: String
