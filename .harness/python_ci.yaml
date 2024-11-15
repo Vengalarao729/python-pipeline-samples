@@ -75,3 +75,5 @@ pipeline:
             description: ""
             required: false
             value: dockerfile
+        delegateSelectors:
+          - docker-delegate-cv
