@@ -68,6 +68,7 @@ pipeline:
               type: Pool
               spec:
                 poolName: ubuntu-gcp
+                harnessImageConnectorRef: dockerconnector
                 os: Linux
         variables:
           - name: dockerfilename
