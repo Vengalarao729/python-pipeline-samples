@@ -67,7 +67,7 @@ pipeline:
             spec:
               type: Pool
               spec:
-                poolName: ubuntu-gcp-pool
+                poolName: ubuntu-gcp
                 os: Linux
         variables:
           - name: dockerfilename
@@ -76,4 +76,4 @@ pipeline:
             required: false
             value: dockerfile
         delegateSelectors:
-          - docker-delegate-cv
+          - docker-cvr-delegate
