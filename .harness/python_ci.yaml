@@ -67,8 +67,7 @@ pipeline:
             spec:
               type: Pool
               spec:
-                poolName: ubuntu-gcp
-                harnessImageConnectorRef: dockerconnector
+                poolName: test-delegate
                 os: Linux
         variables:
           - name: dockerfilename
@@ -77,4 +76,4 @@ pipeline:
             required: false
             value: dockerfile
         delegateSelectors:
-          - docker-cvr-delegate
+          - docker-delegate
